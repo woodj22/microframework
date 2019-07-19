@@ -1,6 +1,7 @@
 from os.path import join
 
 import yaml
+from .helpers import get_contract
 service_directory = '../../services/'
 
 
@@ -12,7 +13,7 @@ class Provider:
         return self.validated_contact(response)
 
     def validated_contact(self, response: dict):
-        contract_keys = self.get_contract().keys()
+        contract_keys = get_contract().keys()
 
         # Add type validation ?
         # contract_items = self.get_contract().items()
@@ -22,13 +23,6 @@ class Provider:
             raise Exception('The {0} Key(s) not found in contract. Please update the contract or remove the key from the response.'.format(''.join(diff)))
 
         return response
-
-    def get_contract(self) -> dict:
-        with open(self.contract_path(), 'r') as stream:
-            try:
-                return yaml.safe_load(stream)['api']
-            except yaml.YAMLError as exc:
-                print(exc)
 
     def contract_path(self):
         return service_directory + self.service_name + "/contract.yml"
