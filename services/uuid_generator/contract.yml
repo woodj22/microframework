@@ -1,0 +1,6 @@
+
+service_name: uuid_generator
+entry: src.main.hanlder
+api:
+  uuid : String
+
